@@ -1,31 +1,10 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
+#include "includes/miscellaneous.h"
+
 
 using namespace std;
-
-string vector_string_formatter(vector<string> list)
-{
-    // vectors of strings are formatted for cout printing
-    string temp = "{ ";
-    if (list.size() > 1)
-    {
-        for (auto i = list.begin(); i != list.end(); i++)
-        {
-            temp = temp.append(*i);
-            if (i != list.end() - 1)
-            {
-                temp.append(", ");
-            }
-        }
-    }
-    else
-    {
-        temp.append(list[0]);
-    }
-    temp.append(" }");
-    return temp;
-}
 
 class Item
 {
@@ -107,7 +86,7 @@ public:
     bool alive; // Can be searched for items if alive == false
     int hp;
     int max_hp;
-    bool bloodied; // Entity is at less than half health
+    bool bloodied = false; // Entity is at less than half health
     vector<Item *> equipment;
     vector<Item *> inventory;
     Deck deck;
@@ -256,7 +235,7 @@ protected:
         temp.append(" nearby.\n");
         for (auto i = enemies.begin(); i != enemies.end(); i++){
             if ((*i)->bloodied){
-                temp = temp + " " +(*i)->bloodied_description;
+                temp = temp + (*i)->bloodied_description;
             }
         }
         return temp;
