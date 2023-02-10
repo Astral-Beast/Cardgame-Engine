@@ -1,192 +1,10 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
-#include "includes/miscellaneous.h"
-
+#include <map>
+#include "includes/entities.h"
 
 using namespace std;
-
-class Item
-{
-public:
-    string get_name()
-    {
-        return this->name;
-    }
-
-protected:
-    string name = "";
-};
-class Iron_Dagger : public Item
-{
-public:
-    Iron_Dagger()
-    {
-        name = "Iron Dagger";
-    }
-};
-
-class Card
-{
-public:
-    string card_name = "";
-    string owner;
-    int cost = 0;
-    string information_text = "";
-    string flavor_text = "";
-    vector<string> entities_allowed;
-    // virtual void cast_spell(Entity *target) = 0;
-    virtual void print_info() = 0;
-    vector<string> range = {""};
-
-    void delete_card()
-    {
-        delete this;
-    }
-};
-
-class Deck
-{
-public:
-    vector<Card *> cards;
-    void list_deck()
-    {
-        if (cards.size() > 0)
-        {
-            for (auto x : cards)
-                x->print_info();
-        }
-        else
-        {
-            cout << "<<This deck is empty>>\n";
-        }
-    }
-
-    void add_card(Card *c)
-    {
-        cards.push_back(c);
-    }
-    void remove_card(int c_index)
-    {
-        // TODO: protect from out of range call
-        cout << "Removing " << cards[c_index]->card_name << " from the deck\n";
-
-        cards[c_index]->delete_card();
-        cards.erase(cards.begin() + c_index);
-    }
-};
-class Entity
-{
-    // Entities are "Players" in the card game
-public:
-    string name;
-    string description;
-    string bloodied_description;
-    string dead_description;
-    bool alive; // Can be searched for items if alive == false
-    int hp;
-    int max_hp;
-    bool bloodied = false; // Entity is at less than half health
-    vector<Item *> equipment;
-    vector<Item *> inventory;
-    Deck deck;
-    void get_deck()
-    // Lists the cards in an entities Deck.
-    {
-        cout << name << "'s Deck:\n";
-        this->deck.list_deck();
-    }
-    void add_item(Item *item)
-    {
-        inventory.push_back(item);
-    }
-    void equip_item()
-    {
-    }
-    void decrease_hp(int x)
-    {
-        hp = hp - x;
-        if (hp < 0)
-        {
-            this->alive = false;
-        }
-        else if (hp < max_hp / 2)
-        {
-            bloodied = true;
-        }
-    }
-    void describe_health()
-    {
-        if (this->alive){
-        cout << name << " has " << this->hp << " health.\n";
-        if (this->bloodied){
-            cout << this->bloodied_description;
-        }
-        }
-        else{
-            cout << this->dead_description;
-        }
-    }
-};
-class Smash_and_Bash : public Card
-// Standard melee attack card
-{
-private:
-    int damage;
-
-public:
-    Smash_and_Bash()
-    {
-        range = {"Melee"};
-        this->damage = 2;
-        card_name = "Smash and Bash";
-        owner = "Player";
-        entities_allowed = vector<string>{"Human", "Orc"};
-        flavor_text = "\"Losing control can be effective.\"";
-        cost = 1;
-        information_text = "Deals two damage to selected opponent per swing";
-    }
-    Smash_and_Bash(string named_owner)
-    {
-        this->damage = 2;
-        range = {"Melee"};
-        card_name = "Smash and Bash";
-        owner = named_owner;
-        entities_allowed = {"Human", "Orc"};
-        flavor_text = "\"Losing control can be effective.\"";
-        cost = 1;
-        information_text = "Deals two damage to selected opponent per swing";
-    }
-    ~Smash_and_Bash()
-    {
-        cout << "Smash and bash destructed";
-    }
-    void cast_spell(Entity *target)
-    {
-        cout << card_name << " has been cast against " << target->name << "\n";
-        target->decrease_hp(2);
-        target->describe_health();
-    }
-    void print_info()
-    {
-        cout << "*********************"
-             << "\n"
-             << card_name << "\n"
-             << "---------------------\n"
-             << "Owned by: " << owner
-             << " Cost: " << cost << " Range: " << vector_string_formatter(range) << "\n"
-             << information_text << "\n"
-             << flavor_text << "\n"
-             << "---------------------\n"
-             << "Effects: \n"
-             << "Deals " << damage << " Damage.\n"
-             << "---------------------\n"
-             << "Characters allowed to use this spell:\n"
-             << vector_string_formatter(entities_allowed) << "\n"
-             << "*********************"
-             << "\n";
-    }
-};
 
 class Scene
 // Scenes are locations in the game world which may have
@@ -276,60 +94,29 @@ private:
     Entity *player;
     vector<Entity *> enemy;
     Scene scene;
+    static map<string, int> effects_map;
 
 public:
+    void referee_effects(vector<effect_struct> effects, Entity* target){
+        for (auto i = effects.begin(); i != effects.end(); i++){
+            switch (effects_map[i->effect_type])
+            {
+            case 0://Damage
+                /* code */
+                cout << "Referee declares "+i->effect_type << endl;
+                target->decrease_hp(i->effect_magnitude);
+                break;
+            case 1://Stun
+                break;
+            default:
+                break;
+            }
+        }
+
+    }
     void load_scene(Scene *location)
     {
         location->describe_scene();
-    }
-};
-
-class Human_Fighter : public Entity
-// Human fighter entity.
-// Has innate Smash and Bash ability
-{
-public:
-    Human_Fighter()
-    {
-        description = "a Human fighter";
-        dead_description = "The Human fighter's corpse is crumpled unceremoniously on the ground.";
-        bloodied_description = "The Human fighter's eyes are glazed from pain and his feral look has been replaced with one of fear.\n";
-        hp = 10;
-        max_hp = 10;
-        deck = Deck();
-        Smash_and_Bash *smash = new Smash_and_Bash;
-        deck.add_card(smash);
-    }
-    Human_Fighter(string input_name)
-    {
-        description = "a Human fighter";
-        bloodied_description = input_name + "'s eyes are glazed from pain and his feral look has been replaced with one of fear.\n";
-        hp = 10;
-        max_hp = 10;
-        deck = Deck();
-        name = input_name;
-        cout << name << "\n";
-        Smash_and_Bash *smash = new Smash_and_Bash(name);
-        deck.add_card(smash);
-    }
-
-    ~Human_Fighter()
-    {
-        // delete smash;
-        cout << "destructor executed\n";
-    }
-};
-
-class Vampire : public Entity
-{
-public:
-    Vampire()
-    {
-        description = "a pallid Vampire";
-        bloodied_description = "The Vampire's face is contorted with a mixture of rage and fear.\n";
-        name = "Marceline";
-        hp = 15;
-        max_hp = 15;
     }
 };
 
@@ -345,14 +132,20 @@ void test_basic_functions()
     a.stock_enemies(&hf);
     gm.load_scene(&a);
     hf.get_deck();
-    Smash_and_Bash *smash = dynamic_cast<Smash_and_Bash *>(hf.deck.cards[0]);
-    smash->cast_spell(vp);
-    v.decrease_hp(7);
-    smash->cast_spell(vp);
+    gm.referee_effects(hf.deck.cards[0]->cast_spell(), &v);
+
+    //smash->cast_spell(vp);
     a.describe_scene();
     hf.deck.remove_card(0);
     hf.get_deck();
 }
+
+map<string,int> Game_Master::effects_map = {
+   {"Damage", 0},
+   {"Stun", 1},
+   {"Empower", 2}
+};
+
 
 int main()
 {

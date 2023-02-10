@@ -1,6 +1,21 @@
 #include <iostream>
 #include <vector>
+#include "miscellaneous.h"
+#include <string>
 using namespace std;
+
+string effect_struct_formatter(vector<effect_struct> effect){
+    string temp ="";
+    for (auto i= effect.begin(); i != effect.end();i++){
+        temp=temp+"{ Effect Type : "+i->effect_type
+        + ", Effect Magnitude: "+to_string(i->effect_magnitude)
+        + ", Chance of Success: "+ to_string(i->effect_likelihood)
+        + "%}\n";
+    }
+    return temp;
+
+}
+
 string vector_string_formatter(vector<string> list)
 {
     // vectors of strings are formatted for cout printing
