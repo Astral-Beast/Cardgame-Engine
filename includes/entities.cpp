@@ -71,8 +71,12 @@ Human_Fighter::Human_Fighter(string input_name)
         deck = Deck();
         name = input_name;
         cout << name << "\n";
-        Smash_and_Bash *smash = new Smash_and_Bash(name);
+        Smash_and_Bash *smash = new Smash_and_Bash();
+        Stab *stab = new Stab();
+        Backstab *bs = new Backstab(); 
         deck.add_card(smash);
+        deck.add_card(bs);
+        deck.add_card(stab);
     }
 
 Human_Fighter::~Human_Fighter()

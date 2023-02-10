@@ -13,7 +13,8 @@ string effect_struct_formatter(vector<effect_struct> effect){
         temp=temp+"{ Effect Type : "+i->effect_type
         + ", Effect Magnitude: "+to_string(i->effect_magnitude)
         + ", Chance of Success: "+ to_string(i->effect_likelihood)
-        + "%}\n";
+        + "%, Required Effect: \""+i->requires_others
+        + "\" Required Conditions: \""+ i->required_conditions + "\" }\n";
     }
     return temp;
 

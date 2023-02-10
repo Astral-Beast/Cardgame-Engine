@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 #include "miscellaneous.h"
 #include "cards.h"
 
@@ -32,16 +33,13 @@ void Deck::remove_card(int c_index)
     cards.erase(this->cards.begin() + c_index);
 }
 
-Card::Card(){
-    cout << "constructed";
-}
-
 Card::~Card()
 {
     delete this;
 }
 
-vector<effect_struct> Card::cast_spell(){
+vector<effect_struct> Card::cast_spell()
+{
     return this->effect;
 }
 
@@ -51,7 +49,6 @@ void Card::print_info()
          << "\n"
          << this->card_name << "\n"
          << "---------------------\n"
-         << "Owned by: " << this->owner
          << " Cost: " << this->cost << " Range: " << vector_string_formatter(this->range) << "\n"
          << this->information_text << "\n"
          << this->flavor_text << "\n"
@@ -68,29 +65,43 @@ void Card::print_info()
 Smash_and_Bash::Smash_and_Bash()
 {
     range = {"Melee"};
-    this->damage = 2;
+    effect = {{"Damage", 2, 75.0, "N/A", "N/A"}};
     card_name = "Smash and Bash";
-    owner = "Player";
     entities_allowed = vector<string>{"Human", "Orc"};
     flavor_text = "\"Losing control can be effective.\"";
     cost = 1;
     information_text = "Deals two damage to selected opponent per swing";
 }
-Smash_and_Bash::Smash_and_Bash(string named_owner)
+
+Stab::Stab()
 {
-    effect={{"Damage", 2, 100.0}};
     range = {"Melee"};
-    card_name = "Smash and Bash";
-    owner = named_owner;
-    entities_allowed = {"Human", "Orc"};
-    flavor_text = "\"Losing control can be effective.\"";
+    effect = {{"Damage", 1, 75.0, "N/A", "N/A"},
+              {"Bleed", 2, 14.0, "Damage", "N/A"}};
+    card_name = "Stab";
+    entities_allowed = vector<string>{"All"};
+    flavor_text = "\"A path to a bloody victory.\"";
     cost = 1;
-    information_text = "Deals two damage to selected opponent per swing";
+    information_text = "Deals " + to_string(effect[0].effect_magnitude) + " damage to selected opponent per swing";
 }
 
-//void Smash_and_Bash::cast_spell(Entity *target)
+Backstab::Backstab()
+{
+    range = {"Melee"};
+    effect = {{"Damage", 2, 75.0, "N/A", "Unaware"},
+              {"Bleed", 2, 34.0, "Damage", "N/A"},
+              {"Damage", 1, 75.0, "N/A", "N/A"},
+              {"Bleed", 2, 14.0, "Damage", "N/A"}};
+    card_name = "Stab";
+    entities_allowed = vector<string>{"All"};
+    flavor_text = "\"A path to a bloody victory.\"";
+    cost = 1;
+    information_text = "Deals " + to_string(effect[0].effect_magnitude) + " damage to selected opponent per swing";
+}
+
+// void Smash_and_Bash::cast_spell(Entity *target)
 //{
-  //  cout << card_name << " has been cast against " << target->name << "\n";
-    //target->decrease_hp(2);
-    //target->describe_health();
+//   cout << card_name << " has been cast against " << target->name << "\n";
+// target->decrease_hp(2);
+// target->describe_health();
 //}

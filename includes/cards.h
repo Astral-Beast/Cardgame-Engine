@@ -8,14 +8,11 @@ using namespace std;
 class Card
 {
 protected:
-    int damage;
     vector<struct effect_struct> effect;
+    int cost;
 
 public:
-    Card();
     string card_name;
-    string owner;
-    int cost;
     string information_text;
     string flavor_text;
     vector<string> entities_allowed;
@@ -30,9 +27,19 @@ class Smash_and_Bash : public Card
 {
 public:
     Smash_and_Bash();
-    Smash_and_Bash(string named_owner);
-    
 };
+class Stab : public Card
+// Standard melee attack card
+{
+public:
+    Stab();
+};
+class Backstab : public Card
+{
+public:
+    Backstab();
+};
+
 class Deck
 {
 public:
