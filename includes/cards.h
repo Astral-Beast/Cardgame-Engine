@@ -19,7 +19,6 @@ public:
     string information_text;
     string flavor_text;
     vector<string> entities_allowed;
-    // virtual void cast_spell(Entity *target) = 0;
     void print_info();
     vector<struct effect_struct> cast_spell();
     vector<string> range;

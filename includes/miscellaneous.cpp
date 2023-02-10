@@ -5,6 +5,9 @@
 using namespace std;
 
 string effect_struct_formatter(vector<effect_struct> effect){
+    /// @brief 
+    /// @param effect --- A card's effect vector
+    /// @return formatted string for printing a card's effect
     string temp ="";
     for (auto i= effect.begin(); i != effect.end();i++){
         temp=temp+"{ Effect Type : "+i->effect_type

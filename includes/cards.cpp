@@ -78,9 +78,6 @@ Smash_and_Bash::Smash_and_Bash()
 }
 Smash_and_Bash::Smash_and_Bash(string named_owner)
 {
-    effect_struct a;
-    a = {"Damage", 2, 100.0};
-    //effect.push_back(a);
     effect={{"Damage", 2, 100.0}};
     range = {"Melee"};
     card_name = "Smash and Bash";
