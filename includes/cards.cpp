@@ -40,6 +40,7 @@ Card::~Card()
 
 vector<effect_struct> Card::cast_spell()
 {
+    cout << this->card_name+ " played\n";
     return this->effect;
 }
 
@@ -65,7 +66,7 @@ void Card::print_info()
 Smash_and_Bash::Smash_and_Bash()
 {
     range = {"Melee"};
-    effect = {{"Damage", 2, 75.0, "N/A", "N/A"}};
+    this->effect = {{"Damage", 2, 75, "N/A", "N/A", "N/A"}};
     card_name = "Smash and Bash";
     entities_allowed = vector<string>{"Human", "Orc"};
     flavor_text = "\"Losing control can be effective.\"";
@@ -76,8 +77,8 @@ Smash_and_Bash::Smash_and_Bash()
 Stab::Stab()
 {
     range = {"Melee"};
-    effect = {{"Damage", 1, 75.0, "N/A", "N/A"},
-              {"Bleed", 2, 14.0, "Damage", "N/A"}};
+    this->effect = {{"Damage", 1, 75, "N/A", "N/A", "N/A"},
+              {"Bleed", 2, 14, "Damage", "N/A", "N/A"}};
     card_name = "Stab";
     entities_allowed = vector<string>{"All"};
     flavor_text = "\"A path to a bloody victory.\"";
@@ -88,11 +89,21 @@ Stab::Stab()
 Backstab::Backstab()
 {
     range = {"Melee"};
-    effect = {{"Damage", 2, 75.0, "N/A", "Unaware"},
-              {"Bleed", 2, 34.0, "Damage", "N/A"},
-              {"Damage", 1, 75.0, "N/A", "N/A"},
-              {"Bleed", 2, 14.0, "Damage", "N/A"}};
-    card_name = "Stab";
+    this->effect = {{"Damage", 2, 75, "N/A", "Unaware", "N/A"},
+              {"Bleed", 2, 34, "Damage", "N/A", "N/A"},
+              {"Damage", 1, 75, "N/A", "N/A", "N/A"},
+              {"Bleed", 2, 14, "Damage", "N/A", "N/A"}};
+    card_name = "Backstab";
+    entities_allowed = vector<string>{"All"};
+    flavor_text = "\"A path to a bloody victory.\"";
+    cost = 1;
+    information_text = "Deals " + to_string(effect[0].effect_magnitude) + " damage to selected opponent per swing";
+}
+Aim_Carefully::Aim_Carefully()
+{
+    range = {"Target"};
+    this->effect = {{"Empower", 2, 75, "N/A", "Unaware", "Accuracy"}};
+    card_name = "Aim Carefully";
     entities_allowed = vector<string>{"All"};
     flavor_text = "\"A path to a bloody victory.\"";
     cost = 1;

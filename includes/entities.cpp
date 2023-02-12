@@ -20,10 +20,10 @@ void Entity::describe_health()
         cout << this->dead_description;
     }
 }
-void Entity::decrease_hp(int x)
+void Entity::change_hp(int x)
 {
-    cout << "Decrease health called\n"<<x;
-    hp = hp - x;
+    cout << "Change health called\n"<<x;
+    hp = hp + x;
     if (hp < 0)
     {
         this->alive = false;
@@ -35,6 +35,15 @@ void Entity::decrease_hp(int x)
         cout<<this->name +" has been bloodied.\n";
     }
 }
+
+void Entity::change_accuracy(float x)
+{
+    cout << "Change accuracy called on "<< this->accuracy_bonus;
+    this->accuracy_bonus= this->accuracy_bonus+x;
+    cout << "New bonus " << this->accuracy_bonus;
+    
+}
+
 void Entity::get_deck()
 // Lists the cards in an entities Deck.
 {
@@ -49,8 +58,16 @@ void Entity::add_item(Item *item)
     this->inventory.push_back(item);
 }
 
+void Entity::init(){
+    this->hp=max_hp;
+    this->accuracy_bonus=0.0;
+    this->damage_bonus=0;
+    this->bleed_bonus=0;
+}
+
 Human_Fighter::Human_Fighter()
     {
+        name = "A human fighter";
         description = "a Human fighter";
         dead_description = "The Human fighter's corpse is crumpled unceremoniously on the ground.";
         bloodied_description = "The Human fighter's eyes are glazed from pain and his feral look has been replaced with one of fear.\n";
@@ -60,24 +77,14 @@ Human_Fighter::Human_Fighter()
         Smash_and_Bash *smash = new Smash_and_Bash;
         this->deck.add_card(smash);
         bloodied=false;
-    }
-
-Human_Fighter::Human_Fighter(string input_name)
-    {
-        description = "a Human fighter";
-        bloodied_description = input_name + "'s eyes are glazed from pain and his feral look has been replaced with one of fear.\n";
-        hp = 10;
-        max_hp = 10;
-        deck = Deck();
-        name = input_name;
-        cout << name << "\n";
-        Smash_and_Bash *smash = new Smash_and_Bash();
         Stab *stab = new Stab();
-        Backstab *bs = new Backstab(); 
-        deck.add_card(smash);
+        Backstab *bs = new Backstab();
+        Aim_Carefully *ac = new Aim_Carefully();
         deck.add_card(bs);
         deck.add_card(stab);
+        deck.add_card(ac);
     }
+
 
 Human_Fighter::~Human_Fighter()
     {
@@ -90,7 +97,7 @@ Vampire::Vampire()
     {
         this->description = "a pallid Vampire";
         this->bloodied_description = "The Vampire's face is contorted with a mixture of rage and fear.\n";
-        this->name = "Marceline";
+        this->name = "The Vampire";
         this->hp = 15;
         this->max_hp = 15;
     }

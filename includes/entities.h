@@ -11,10 +11,13 @@ class Entity
 {
     // Entities are "Players" in the card game
 public:
-    string name;
+    // DESCRIPTIONS ::
     string description;
     string bloodied_description;
     string dead_description;
+    
+    // 
+    string name;
     bool alive; // Can be searched for items if alive == false
     int hp;
     int max_hp;
@@ -22,11 +25,31 @@ public:
     vector<Item *> equipment;
     vector<Item *> inventory;
     Deck deck;
+
+    // METHODS ::
     void get_deck();
     void add_item(Item *item);
     void equip_item();
-    void decrease_hp(int x);
+    void change_hp(int x);
+    void change_accuracy(float x);
     void describe_health();
+    void init();
+    
+    protected:
+    // ATTRIBUTES ::
+
+    // Conditions ::
+    int bleed;
+
+
+    
+
+    // BONUSES ::
+    int accuracy_bonus;
+    int damage_bonus;
+    int bleed_bonus;
+    int dodge_bonus;
+
 };
 class Human_Fighter : public Entity
 // Human fighter entity.
@@ -34,7 +57,6 @@ class Human_Fighter : public Entity
 {
 public:
     Human_Fighter();
-    Human_Fighter(string input_name);
     ~Human_Fighter();
 };
 

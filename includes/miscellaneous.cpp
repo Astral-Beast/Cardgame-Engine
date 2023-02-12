@@ -42,3 +42,15 @@ string vector_string_formatter(vector<string> list)
     temp.append(" }");
     return temp;
 }
+
+bool check_accuracy(float x){
+    int calc = rand() % 100;
+    if (x >= calc){
+        cout <<"True: "<<calc<< " <= " <<x;
+        return true;
+    }
+    else{
+        cout <<"False: "<<calc<< " > " <<x;
+        return false;
+    }
+}

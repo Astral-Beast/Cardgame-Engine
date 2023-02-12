@@ -39,6 +39,11 @@ class Backstab : public Card
 public:
     Backstab();
 };
+class Aim_Carefully : public Card
+{
+public:
+    Aim_Carefully();
+};
 
 class Deck
 {

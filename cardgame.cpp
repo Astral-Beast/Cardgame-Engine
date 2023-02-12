@@ -2,6 +2,7 @@
 #include <vector>
 #include <math.h>
 #include <map>
+
 #include "includes/entities.h"
 
 using namespace std;
@@ -33,7 +34,7 @@ protected:
             temp.append(" and ");
             temp.append(this->enemies[1]->description);
         }
-        else if (this->enemies.size()>2)
+        else if (this->enemies.size() > 2)
         {
             temp.append("are ");
             for (auto i = enemies.begin(); i != enemies.end(); i++)
@@ -49,10 +50,12 @@ protected:
                 }
             }
         }
-        
+
         temp.append(" nearby.\n");
-        for (auto i = enemies.begin(); i != enemies.end(); i++){
-            if ((*i)->bloodied){
+        for (auto i = enemies.begin(); i != enemies.end(); i++)
+        {
+            if ((*i)->bloodied)
+            {
                 temp = temp + (*i)->bloodied_description;
             }
         }
@@ -77,7 +80,6 @@ public:
         cout << area_description;
         cout << describe_enemies();
     }
-
 };
 class Area_One : public Scene
 {
@@ -95,25 +97,10 @@ private:
     vector<Entity *> enemy;
     Scene scene;
     static map<string, int> effects_map;
+    static map<string, int> target_map;
 
 public:
-    void referee_effects(vector<effect_struct> effects, Entity* target){
-        for (auto i = effects.begin(); i != effects.end(); i++){
-            switch (effects_map[i->effect_type])
-            {
-            case 0://Damage
-                /* code */
-                cout << "Referee declares "+i->effect_type << endl;
-                target->decrease_hp(i->effect_magnitude);
-                break;
-            case 1://Stun
-                break;
-            default:
-                break;
-            }
-        }
-
-    }
+    void referee_effects(vector<effect_struct> effects, Entity *target);
     void load_scene(Scene *location)
     {
         location->describe_scene();
@@ -128,24 +115,70 @@ void test_basic_functions()
     Scene a = Area_One();
     a.stock_enemies(vp);
     gm.load_scene(&a);
-    Human_Fighter hf = Human_Fighter("Finn");
+    Human_Fighter hf = Human_Fighter();
     a.stock_enemies(&hf);
     gm.load_scene(&a);
     hf.get_deck();
+    for (auto i = hf.deck.cards.begin(); i != hf.deck.cards.end(); i++)
+    {
+        gm.referee_effects((*i)->cast_spell(), &v);
+    }
     gm.referee_effects(hf.deck.cards[0]->cast_spell(), &v);
 
-    //smash->cast_spell(vp);
+    // smash->cast_spell(vp);
     a.describe_scene();
     hf.deck.remove_card(0);
+
     hf.get_deck();
 }
 
-map<string,int> Game_Master::effects_map = {
-   {"Damage", 0},
-   {"Stun", 1},
-   {"Empower", 2}
-};
+map<string, int> Game_Master::effects_map = {
+    {"Damage", 0},
+    {"Stun", 1},
+    {"Empower", 2},
+    {"Bleed", 3},
+    {"Heal", 4}};
+map<string, int> Game_Master::target_map{
+    {"Accuracy", 0}};
 
+void Game_Master::referee_effects(vector<effect_struct> effects, Entity *target)
+{
+    vector<string> effects_applied;
+    for (auto i = effects.begin(); i != effects.end(); i++)
+    {
+        if (check_accuracy (i->effect_likelihood))
+        {
+            effects_applied.push_back(i->effect_type);
+            switch (effects_map[i->effect_type])
+            {
+            case 0: // Damage
+                /* code */
+                cout << "Referee declares " + i->effect_type + "\n";
+                target->change_hp(-(i->effect_magnitude));
+                break;
+            case 1: // Stun
+                break;
+            case 2: // Empower
+                switch (target_map[i->effect_target])
+                {
+                case 0:
+                    cout << "Change_accuracy called\n";
+                    target->change_accuracy(i->effect_magnitude);
+                }
+                break;
+            case 3: // Bleed
+                cout << "Bleed called\n";
+
+                break;
+            case 4: // Heal
+                cout << "Referee declares " + i->effect_type << endl;
+                target->change_hp(i->effect_magnitude);
+            default:
+                break;
+            }
+        }
+    }
+}
 
 int main()
 {
