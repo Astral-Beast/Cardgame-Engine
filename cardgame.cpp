@@ -2,10 +2,7 @@
 #include <vector>
 #include <math.h>
 #include <map>
-
 #include "includes/entities.hpp"
-
-
 using namespace std;
 
 class Scene
@@ -16,54 +13,10 @@ protected:
     string area_description;
     vector<Entity *> enemies;
     vector<Item *> items;
-    string describe_enemies()
-    {
-        string temp = "There ";
-        if (this->enemies.size() == 1)
-        {
-            temp.append("is ");
-            temp.append(this->enemies[0]->description);
-            if (this->enemies[0]->bloodied)
-            {
-                temp.append(this->enemies[0]->bloodied_description);
-            }
-        }
-        else if (this->enemies.size() == 2)
-        {
-            temp.append("are ");
-            temp.append(this->enemies[0]->description);
-            temp.append(" and ");
-            temp.append(this->enemies[1]->description);
-        }
-        else if (this->enemies.size() > 2)
-        {
-            temp.append("are ");
-            for (auto i = enemies.begin(); i != enemies.end(); i++)
-            {
-                if (i == enemies.end())
-                {
-                    temp.append(" and ");
-                }
-                temp.append((*i)->description);
-                if (i != enemies.end() - 1)
-                {
-                    temp.append(", ");
-                }
-            }
-        }
-
-        temp.append(" nearby.\n");
-        for (auto i = enemies.begin(); i != enemies.end(); i++)
-        {
-            if ((*i)->bloodied)
-            {
-                temp = temp + (*i)->bloodied_description;
-            }
-        }
-        return temp;
-    }
+    
 
 public:
+    string describe_enemies();
     void stock_enemies(Entity *entity)
     // Adds entities to the scene
     {
@@ -77,15 +30,14 @@ public:
     void describe_scene()
     // Describes scene visually including background, objects, and enemies.
     {
-
         cout << area_description;
         cout << describe_enemies();
     }
 };
-class Area_One : public Scene
+class The_Great_Gate : public Scene
 {
 public:
-    Area_One()
+    The_Great_Gate()
     {
         this->area_description = "The wide boulevard you woke up on passes between the mammoth buildings around you and strikes out deeper into the city.\n\nToward the center of this great dome the buildings spiral upward and grow grander and more magnificent as they reach for the sky. \n\nWhether those buildings are organic in origin or attempts at replicating the aesthetic of nature is unclear from this far away, but something that's certain is that you've never known any plant or other building material which could hold such massive structures on such spindly legs as some of those central buildings.\n\n\n";
     }
@@ -115,7 +67,7 @@ void test_basic_functions()
     Vampire v = Vampire();
     Vampire *vp = &v;
     Game_Master gm = Game_Master();
-    Scene a = Area_One();
+    Scene a = The_Great_Gate();
     a.stock_enemies(vp);
     gm.load_scene(&a);
     Human_Fighter hf = Human_Fighter();
@@ -147,6 +99,8 @@ map<string, int> Game_Master::target_map{
     // Used in the buff portion of Game Master efect_referee switch statement
     // Allows the Game Master to referee the right kind of buff
     {"Accuracy", 0}};
+
+
 
 void Game_Master::referee_effects(vector<effect_struct> effects, Entity *target)
 // @brief -- Game Master uses this method to implement card effects
@@ -192,3 +146,50 @@ int main()
 {
     test_basic_functions();
 }
+
+string Scene::describe_enemies()
+    {
+        string temp = "There ";
+        if (this->enemies.size() == 1)
+        {
+            temp.append("is ");
+            temp.append(this->enemies[0]->description);
+            if (this->enemies[0]->bloodied)
+            {
+                temp.append(this->enemies[0]->bloodied_description);
+            }
+        }
+        else if (this->enemies.size() == 2)
+        {
+            temp.append("are ");
+            temp.append(this->enemies[0]->description);
+            temp.append(" and ");
+            temp.append(this->enemies[1]->description);
+        }
+        else if (this->enemies.size() > 2)
+        {
+            temp.append("are ");
+            for (auto i = enemies.begin(); i != enemies.end(); i++)
+            {
+                if (i == enemies.end())
+                {
+                    temp.append(" and ");
+                }
+                temp.append((*i)->description);
+                if (i != enemies.end() - 1)
+                {
+                    temp.append(", ");
+                }
+            }
+        }
+
+        temp.append(" nearby.\n");
+        for (auto i = enemies.begin(); i != enemies.end(); i++)
+        {
+            if ((*i)->bloodied)
+            {
+                temp = temp + (*i)->bloodied_description;
+            }
+        }
+        return temp;
+    }

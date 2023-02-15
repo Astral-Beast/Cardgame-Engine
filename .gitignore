@@ -1,3 +1,5 @@
 /.vscode
 *.exe
 tempCodeRunnerFile.cpp
+/node_modules
+*.json
