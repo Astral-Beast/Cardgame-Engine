@@ -22,7 +22,7 @@ void Entity::describe_health()
 }
 void Entity::change_hp(int x)
 {
-    cout << "Change health called\n"<<x;
+    cout << "Change health called ( " << x<< " )\n";
     hp = hp + x;
     if (hp < 0)
     {
@@ -36,12 +36,11 @@ void Entity::change_hp(int x)
     }
 }
 
-void Entity::change_accuracy(float x)
+void Entity::change_global(int magnitude, string type)
 {
-    cout << "Change accuracy called on "<< this->accuracy_bonus;
-    this->accuracy_bonus= this->accuracy_bonus+x;
-    cout << "New bonus " << this->accuracy_bonus;
-    
+    for (auto i = this->deck.cards.begin(); i != this->deck.cards.end(); i++){
+        (*i)->update_effect(magnitude, type);
+    }
 }
 
 void Entity::get_deck()
@@ -60,9 +59,6 @@ void Entity::add_item(Item *item)
 
 void Entity::init(){
     this->hp=max_hp;
-    this->accuracy_bonus=0.0;
-    this->damage_bonus=0;
-    this->bleed_bonus=0;
 }
 
 Human_Fighter::Human_Fighter()

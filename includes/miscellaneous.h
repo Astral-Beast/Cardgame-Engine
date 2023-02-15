@@ -13,7 +13,9 @@ struct effect_struct {
         int effect_likelihood;
         string requires_others;
         string required_conditions;
-        string effect_target;
+        string buff_type;// eg damage or accuracy
+        string buff_target; // eg damage spells
+        string buff_scope; // single card, global
 };
 string effect_struct_formatter(vector<effect_struct> effect);
 bool check_accuracy(float x);

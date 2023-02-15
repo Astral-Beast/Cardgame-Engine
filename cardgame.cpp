@@ -5,6 +5,7 @@
 
 #include "includes/entities.h"
 
+
 using namespace std;
 
 class Scene
@@ -121,15 +122,15 @@ void test_basic_functions()
     hf.get_deck();
     for (auto i = hf.deck.cards.begin(); i != hf.deck.cards.end(); i++)
     {
-        gm.referee_effects((*i)->cast_spell(), &v);
+        gm.referee_effects((*i)->cast_spell(), &hf);
     }
     gm.referee_effects(hf.deck.cards[0]->cast_spell(), &v);
-
+    hf.get_deck();
     // smash->cast_spell(vp);
     a.describe_scene();
     hf.deck.remove_card(0);
 
-    hf.get_deck();
+    
 }
 
 map<string, int> Game_Master::effects_map = {
@@ -146,24 +147,21 @@ void Game_Master::referee_effects(vector<effect_struct> effects, Entity *target)
     vector<string> effects_applied;
     for (auto i = effects.begin(); i != effects.end(); i++)
     {
-        if (check_accuracy (i->effect_likelihood))
+        if (check_accuracy(i->effect_likelihood))
         {
             effects_applied.push_back(i->effect_type);
             switch (effects_map[i->effect_type])
             {
             case 0: // Damage
-                /* code */
-                cout << "Referee declares " + i->effect_type + "\n";
                 target->change_hp(-(i->effect_magnitude));
                 break;
             case 1: // Stun
                 break;
             case 2: // Empower
-                switch (target_map[i->effect_target])
+                switch (target_map[i->buff_type])
                 {
-                case 0:
-                    cout << "Change_accuracy called\n";
-                    target->change_accuracy(i->effect_magnitude);
+                case 0://Accuracy
+                    target->change_global(i->effect_magnitude, i->buff_type);
                 }
                 break;
             case 3: // Bleed

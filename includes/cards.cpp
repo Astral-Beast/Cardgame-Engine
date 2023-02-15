@@ -44,13 +44,20 @@ vector<effect_struct> Card::cast_spell()
     return this->effect;
 }
 
+void Card::update_effect(int magnitude, string type)
+{
+    for (auto i = effect.begin();i != effect.end(); i++){
+        cout << "\" "+type+" \" buffed by " << magnitude << "\n";
+    }
+}
+
 void Card::print_info()
 {
     cout << "*********************"
          << "\n"
          << this->card_name << "\n"
          << "---------------------\n"
-         << " Cost: " << this->cost << " Range: " << vector_string_formatter(this->range) << "\n"
+         << "Cost: " << this->cost << " Range: " << vector_string_formatter(this->range) << "\n"
          << this->information_text << "\n"
          << this->flavor_text << "\n"
          << "---------------------\n"
@@ -63,10 +70,19 @@ void Card::print_info()
          << "\n";
 }
 
+/*struct effect_struct {
+        string effect_type;
+        int effect_magnitude;
+        int effect_likelihood;
+        string requires_others;
+        string required_conditions;
+        string buff_type;
+};
+*/
 Smash_and_Bash::Smash_and_Bash()
 {
     range = {"Melee"};
-    this->effect = {{"Damage", 2, 75, "N/A", "N/A", "N/A"}};
+    this->effect = {{"Damage", 2, 75, "N/A", "N/A", "N/A", "N/A"}};
     card_name = "Smash and Bash";
     entities_allowed = vector<string>{"Human", "Orc"};
     flavor_text = "\"Losing control can be effective.\"";
@@ -77,8 +93,8 @@ Smash_and_Bash::Smash_and_Bash()
 Stab::Stab()
 {
     range = {"Melee"};
-    this->effect = {{"Damage", 1, 75, "N/A", "N/A", "N/A"},
-              {"Bleed", 2, 14, "Damage", "N/A", "N/A"}};
+    this->effect = {{"Damage", 1, 75, "N/A", "N/A", "N/A", "N/A"},
+              {"Bleed", 2, 14, "Damage", "N/A", "N/A", "N/A"}};
     card_name = "Stab";
     entities_allowed = vector<string>{"All"};
     flavor_text = "\"A path to a bloody victory.\"";
@@ -89,10 +105,10 @@ Stab::Stab()
 Backstab::Backstab()
 {
     range = {"Melee"};
-    this->effect = {{"Damage", 2, 75, "N/A", "Unaware", "N/A"},
-              {"Bleed", 2, 34, "Damage", "N/A", "N/A"},
-              {"Damage", 1, 75, "N/A", "N/A", "N/A"},
-              {"Bleed", 2, 14, "Damage", "N/A", "N/A"}};
+    this->effect = {{"Damage", 2, 75, "N/A", "Unaware", "N/A", "N/A", "N/A"},
+              {"Bleed", 2, 34, "Damage", "N/A", "N/A", "N/A", "N/A"},
+              {"Damage", 1, 75, "N/A", "N/A", "N/A", "N/A", "N/A"},
+              {"Bleed", 2, 14, "Damage", "N/A", "N/A", "N/A", "N/A"}};
     card_name = "Backstab";
     entities_allowed = vector<string>{"All"};
     flavor_text = "\"A path to a bloody victory.\"";
@@ -102,7 +118,7 @@ Backstab::Backstab()
 Aim_Carefully::Aim_Carefully()
 {
     range = {"Target"};
-    this->effect = {{"Empower", 2, 75, "N/A", "Unaware", "Accuracy"}};
+    this->effect = {{"Empower", 2, 75, "N/A", "N/A", "Accuracy", "Damage", "Global"}};
     card_name = "Aim Carefully";
     entities_allowed = vector<string>{"All"};
     flavor_text = "\"A path to a bloody victory.\"";

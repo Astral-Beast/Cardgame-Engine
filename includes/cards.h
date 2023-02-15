@@ -17,6 +17,7 @@ public:
     string flavor_text;
     vector<string> entities_allowed;
     void print_info();
+    void update_effect(int magnitude, string type);
     vector<struct effect_struct> cast_spell();
     vector<string> range;
     ~Card();

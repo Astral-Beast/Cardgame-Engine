@@ -31,7 +31,7 @@ public:
     void add_item(Item *item);
     void equip_item();
     void change_hp(int x);
-    void change_accuracy(float x);
+    void change_global(int magnitude, string type);
     void describe_health();
     void init();
     
@@ -45,11 +45,6 @@ public:
     
 
     // BONUSES ::
-    int accuracy_bonus;
-    int damage_bonus;
-    int bleed_bonus;
-    int dodge_bonus;
-
 };
 class Human_Fighter : public Entity
 // Human fighter entity.
