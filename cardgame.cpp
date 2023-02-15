@@ -92,6 +92,7 @@ public:
 };
 
 class Game_Master
+// The game master controls the flow of gameplay and is the interface between different entities
 {
 private:
     Entity *player;
@@ -109,6 +110,7 @@ public:
 };
 
 void test_basic_functions()
+// @brief -- used to test various functionalities of the game
 {
     Vampire v = Vampire();
     Vampire *vp = &v;
@@ -134,15 +136,23 @@ void test_basic_functions()
 }
 
 map<string, int> Game_Master::effects_map = {
+    // Used in the Game Master efect_referee switch statement
+    // Allows the Game Master to referee the right kind of effect
     {"Damage", 0},
     {"Stun", 1},
     {"Empower", 2},
     {"Bleed", 3},
     {"Heal", 4}};
 map<string, int> Game_Master::target_map{
+    // Used in the buff portion of Game Master efect_referee switch statement
+    // Allows the Game Master to referee the right kind of buff
     {"Accuracy", 0}};
 
 void Game_Master::referee_effects(vector<effect_struct> effects, Entity *target)
+// @brief -- Game Master uses this method to implement card effects
+// @param -- Effects: vector of the effects of the card being played
+//           *target: pointer to target entity
+//
 {
     vector<string> effects_applied;
     for (auto i = effects.begin(); i != effects.end(); i++)
@@ -160,7 +170,7 @@ void Game_Master::referee_effects(vector<effect_struct> effects, Entity *target)
             case 2: // Empower
                 switch (target_map[i->buff_type])
                 {
-                case 0://Accuracy
+                case 0:// Accuracy
                     target->change_global(i->effect_magnitude, i->buff_type);
                 }
                 break;

@@ -62,6 +62,7 @@ void Entity::init(){
 }
 
 Human_Fighter::Human_Fighter()
+// Human fighter enemy
     {
         name = "A human fighter";
         description = "a Human fighter";
@@ -90,6 +91,7 @@ Human_Fighter::~Human_Fighter()
     }
 
 Vampire::Vampire()
+// Vampire enemy
     {
         this->description = "a pallid Vampire";
         this->bloodied_description = "The Vampire's face is contorted with a mixture of rage and fear.\n";
