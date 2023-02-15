@@ -1,5 +1,5 @@
 #include <iostream>
-#include "items.h"
+#include "items.hpp"
 using namespace std;
 
 string Item::get_name()
