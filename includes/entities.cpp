@@ -1,6 +1,6 @@
-#include "items.h"
-#include "cards.h"
-#include "entities.h"
+#include "items.hpp"
+#include "cards.hpp"
+#include "entities.hpp"
 
 using namespace std;
 

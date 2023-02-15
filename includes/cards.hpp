@@ -2,7 +2,7 @@
 #define CARDS
 #include <iostream>
 #include <vector>
-#include "miscellaneous.h"
+#include "miscellaneous.hpp"
 
 using namespace std;
 class Card

@@ -3,7 +3,7 @@
 #include <math.h>
 #include <map>
 
-#include "includes/entities.h"
+#include "includes/entities.hpp"
 
 
 using namespace std;

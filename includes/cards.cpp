@@ -2,8 +2,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "miscellaneous.h"
-#include "cards.h"
+#include "miscellaneous.hpp"
+#include "cards.hpp"
 
 using namespace std;
 

@@ -1,8 +1,8 @@
 #ifndef ENTITIES
 #define ENTITIES
 
-#include "cards.h"
-#include "items.h"
+#include "cards.hpp"
+#include "items.hpp"
 #include <iostream>
 #include <vector>
 using namespace std;
