@@ -70,15 +70,6 @@ void Card::print_info()
          << "\n";
 }
 
-/*struct effect_struct {
-        string effect_type;
-        int effect_magnitude;
-        int effect_likelihood;
-        string requires_others;
-        string required_conditions;
-        string buff_type;
-};
-*/
 Smash_and_Bash::Smash_and_Bash()
 {
     range = {"Melee"};
@@ -121,14 +112,8 @@ Aim_Carefully::Aim_Carefully()
     this->effect = {{"Empower", 2, 75, "N/A", "N/A", "Accuracy", "Damage", "Global"}};
     card_name = "Aim Carefully";
     entities_allowed = vector<string>{"All"};
-    flavor_text = "\"A path to a bloody victory.\"";
+    flavor_text = "\"A blade that strikes true is more valuable than a blade that strikes often\"";
     cost = 1;
-    information_text = "Deals " + to_string(effect[0].effect_magnitude) + " damage to selected opponent per swing";
+    information_text = "Empowers Accuracy for Damaging spells by " + to_string(this->effect[0].effect_magnitude);
 }
 
-// void Smash_and_Bash::cast_spell(Entity *target)
-//{
-//   cout << card_name << " has been cast against " << target->name << "\n";
-// target->decrease_hp(2);
-// target->describe_health();
-//}

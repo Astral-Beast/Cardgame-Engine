@@ -36,6 +36,18 @@ void Entity::change_hp(int x)
     }
 }
 
+// *** Conditions ***
+void Entity::add_condition(string type, int duration){
+    this->conditions_list.push_back({{type, duration}});
+}
+
+void Entity::update_conditions(){
+    for (auto i=this->conditions_list.begin();i!=this->conditions_list.end(); i++){
+        
+    }
+}
+
+
 void Entity::change_global(int magnitude, string type)
 {
     for (auto i = this->deck.cards.begin(); i != this->deck.cards.end(); i++){

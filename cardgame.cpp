@@ -80,7 +80,6 @@ void test_basic_functions()
     }
     gm.referee_effects(hf.deck.cards[0]->cast_spell(), &v);
     hf.get_deck();
-    // smash->cast_spell(vp);
     a.describe_scene();
     hf.deck.remove_card(0);
 
@@ -105,7 +104,7 @@ map<string, int> Game_Master::target_map{
 void Game_Master::referee_effects(vector<effect_struct> effects, Entity *target)
 // @brief -- Game Master uses this method to implement card effects
 // @param -- Effects: vector of the effects of the card being played
-//           *target: pointer to target entity
+//           *target: pointer to target entity i.e player or enemy
 //
 {
     vector<string> effects_applied;
@@ -120,6 +119,7 @@ void Game_Master::referee_effects(vector<effect_struct> effects, Entity *target)
                 target->change_hp(-(i->effect_magnitude));
                 break;
             case 1: // Stun
+                target->add_condition("Stun", i->effect_magnitude);
                 break;
             case 2: // Empower
                 switch (target_map[i->buff_type])
@@ -130,10 +130,9 @@ void Game_Master::referee_effects(vector<effect_struct> effects, Entity *target)
                 break;
             case 3: // Bleed
                 cout << "Bleed called\n";
-
+                target->add_condition("Bleed", i->effect_magnitude);
                 break;
             case 4: // Heal
-                cout << "Referee declares " + i->effect_type << endl;
                 target->change_hp(i->effect_magnitude);
             default:
                 break;

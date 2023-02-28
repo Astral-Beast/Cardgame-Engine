@@ -5,6 +5,7 @@
 #include "items.hpp"
 #include <iostream>
 #include <vector>
+#include "miscellaneous.hpp"
 using namespace std;
 
 class Entity
@@ -25,6 +26,7 @@ public:
     vector<Item *> equipment;
     vector<Item *> inventory;
     Deck deck;
+    
 
     // METHODS ::
     void get_deck();
@@ -34,14 +36,14 @@ public:
     void change_global(int magnitude, string type);
     void describe_health();
     void init();
+    void add_condition(string type, int duration);
+    void update_conditions();
     
     protected:
     // ATTRIBUTES ::
 
     // Conditions ::
-    int bleed;
-
-
+    vector<vector<condition_struct>> conditions_list;
     
 
     // BONUSES ::
